@@ -1,16 +1,33 @@
+import bus from "./bus";
 import { canvas } from "./canvas";
 
 function Camera() {
   let x = 0;
   let y = -180;
   let zoom = 1;
+  let shake = 0;
+
+  function enable() {
+    bus.on('boom', onBoom);
+  }
+
+  function disable() {
+    bus.off('boom', onBoom);
+  }
+
+  function onBoom(mag) {
+    shake += mag;
+    if (shake > 2.0) {
+      shake = 2.0;
+    }
+  }
 
   function getX() {
-    return x;
+    return x + Math.cos(shake * 30) * Math.exp(shake) * 2;
   }
 
   function getY() {
-    return y;
+    return y + Math.cos(shake * 22) * Math.exp(shake) * 2;
   }
 
   function getZoom() {
@@ -18,7 +35,11 @@ function Camera() {
   }
 
   function update(dT) {
-    // y = canvas.height * 0.34;
+    if (shake > 0) {
+      shake -= dT * 6.0;
+    } else {
+      shake = 0;
+    }
   }
 
   function render() {
@@ -32,6 +53,8 @@ function Camera() {
     getZoom,
     update,
     render,
+    enable,
+    disable,
   }
 }
 

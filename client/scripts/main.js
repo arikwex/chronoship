@@ -7,6 +7,8 @@ import bus from './bus';
 import Bullet from './bullet';
 import Enemy from './enemy';
 import { canvas } from './canvas';
+import Wake from './wake';
+import EnemySpawner from './enemy-spawner';
 
 function initGame() {
   Engine.init();
@@ -15,7 +17,7 @@ function initGame() {
   Engine.addGameObject(new Controls());
   Engine.addGameObject(new Camera());
   Engine.addGameObject(new Player(0, 0));
-  Engine.addGameObject(new Enemy(0, -canvas.height + 300, 0));
+  Engine.addGameObject(new EnemySpawner());
   Engine.addGameObject(new HUD());
 
   bus.on('fire', onFire);
@@ -35,8 +37,8 @@ function onFire(x, y, type) {
   } else if (type === 2) {
     p.addTime(-2);
     Engine.addGameObject(new Bullet(x, y, { type, angle: 0 }));
-    Engine.addGameObject(new Bullet(x, y, { type, angle: 10 }));
-    Engine.addGameObject(new Bullet(x, y, { type, angle: -10 }));
+    Engine.addGameObject(new Bullet(x, y, { type, angle: 4 }));
+    Engine.addGameObject(new Bullet(x, y, { type, angle: -4 }));
   }
 }
 

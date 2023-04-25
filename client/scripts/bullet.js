@@ -60,12 +60,22 @@ function Bullet(xi, yi, { angle, type }) {
     ctx.restore();
   }
 
+  function getX() {
+    return x;
+  }
+
+  function getY() {
+    return y;
+  }
+
   self = {
     tag: 'bullet',
     order: 50,
     getHitDamage,
     update,
     render,
+    getX,
+    getY,
   };
 
   return self;

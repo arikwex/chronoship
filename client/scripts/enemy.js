@@ -2,6 +2,7 @@ import bus from "./bus";
 import { ctx } from "./canvas";
 import COLOR from "./color";
 import engine from "./engine";
+import Wake from "./wake";
 
 const sz = 40;
 function Enemy(x, y, type = 0) {
@@ -18,15 +19,35 @@ function Enemy(x, y, type = 0) {
 
   function onBulletHit(bullet, enemy) {
     if (enemy === self) {
+      bus.emit('boom', 0.5);
       hp -= bullet.getHitDamage();
+      engine.addGameObject(new Wake(
+        bullet.getX() + (Math.random() - 0.5) * 20,
+        bullet.getY() + (Math.random() - 0.5) * 20,
+        COLOR.PURPLE,
+        30 + Math.random() * 14
+      ));
     }
   }
 
   function update(dT) {
-    // y += 100 * dT;
+    y += 100 * dT;
 
     if (y > 400 || hp <= 0) {
       engine.removeGameObject(self);
+      if (hp <= 0) {
+        bus.emit('boom', 2);
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            engine.addGameObject(new Wake(
+              x + (Math.random() - 0.5) * sz * 2,
+              y + (Math.random() - 0.5) * sz * 1.3,
+              COLOR.RED,
+              30 + Math.random() * 50
+            ));
+          }, i * 60);
+        }
+      }
     }
   }
 

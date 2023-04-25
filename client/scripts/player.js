@@ -68,8 +68,8 @@ function Player(xi, yi) {
 
     // Shooting
     if (controls.getDown(' ')) {
-      // bus.emit('fire', x, y, 1);
-      bus.emit('fire', x, y, 1);
+      bus.emit('fire', x, y, 2);
+      // bus.emit('boom', 1);
     }
   }
 
