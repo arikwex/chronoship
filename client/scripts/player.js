@@ -2,6 +2,8 @@ import { canvas, ctx } from "./canvas";
 import COLOR from "./color";
 import Engine from "./engine";
 import bus from "./bus.js";
+import engine from "./engine";
+import Wake from "./wake";
 
 const sz = 40;
 const MAX_VEL = 800;
@@ -12,7 +14,8 @@ function Player(xi, yi) {
   let x = xi;
   let y = yi;
   let vx = 0;
-  let time = 99.9;
+  let time = 18;//99.9;
+  let self;
 
   function getX() {
     return x;
@@ -71,6 +74,23 @@ function Player(xi, yi) {
       bus.emit('fire', x, y, 2);
       // bus.emit('boom', 1);
     }
+
+    if (time <= 0) {
+      bus.emit('boom', 2);
+      setTimeout(() => { bus.emit('boom', 2); }, 500);
+      setTimeout(() => { bus.emit('boom', 2); }, 1000);
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          engine.addGameObject(new Wake(
+            x + (Math.random() - 0.5) * sz * 3,
+            y + (Math.random() - 0.5) * sz * 2.3,
+            i % 2 == 0 ? COLOR.PURPLE : COLOR.WHITE,
+            40 + Math.random() * 80
+          ));
+        }, i * 30);
+      }
+      engine.removeGameObject(self);
+    }
   }
 
   function render() {
@@ -91,7 +111,7 @@ function Player(xi, yi) {
     ctx.restore();
   }
 
-  return {
+  self = {
     tag: 'player',
     order: 0,
     getX,
@@ -100,7 +120,9 @@ function Player(xi, yi) {
     addTime,
     update,
     render,
-  }
+  };
+
+  return self;
 }
 
 export default Player;

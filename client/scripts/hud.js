@@ -11,16 +11,25 @@ function HUD() {
 
   function render() {
     const player = engine.getByTag('player')[0];
-    const sz = 50;
+    if (!player) {
+      return;
+    }
+    const t = player.getTime();
+    let sz = 50;
 
     ctx.save();
     ctx.translate(player.getX(), player.getY());
-    ctx.fillStyle = COLOR.GREEN;
-    ctx.strokeStyle = COLOR.GREEN;
+    if (t < 15) {
+      ctx.fillStyle = COLOR.RED;
+      ctx.strokeStyle = COLOR.RED;
+    } else {
+      ctx.fillStyle = COLOR.GREEN;
+      ctx.strokeStyle = COLOR.GREEN;
+    }
     ctx.font = "32px Arial";
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    const t = player.getTime();
+    
     ctx.fillText(`${t.toFixed(1)}`, 0, sz * 2 + 20);
 
     ctx.lineCap = 'round';
@@ -37,8 +46,11 @@ function HUD() {
     const cx2 = Math.sin(a2) * sz / 4;
     const cy2 = -Math.cos(a2) * sz / 4;
 
-    // const pulse = Math.exp(-(Math.min(1 - t % 1.0, forcedPulse)) * 6.0) * 0.4 + 1;
-    const pulse = Math.exp(-forcedPulse * 6.0) * 0.4 + 1;
+    // Clock pulsar
+    let pulse = Math.exp(-forcedPulse * 6.0) * 0.4 + 1;
+    if (t < 15) {
+      pulse += Math.exp(-(1 - t % 1) * 6.0) * 0.4;
+    }
     ctx.translate(0, sz + 10);
     ctx.scale(pulse, pulse);
     ctx.beginPath();

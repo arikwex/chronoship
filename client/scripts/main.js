@@ -25,6 +25,9 @@ function initGame() {
 
 function onFire(x, y, type) {
   const p = Engine.getByTag('player')[0];
+  if (!p) {
+    return;
+  }
   const h = Engine.getByTag('hud')[0];
   h.triggerPulse();
   if (type === 0) {
