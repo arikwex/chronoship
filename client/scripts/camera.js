@@ -24,6 +24,7 @@ function Camera() {
 
   return {
     tag: 'camera',
+    order: -1000,
     getX,
     getY,
     getZoom,

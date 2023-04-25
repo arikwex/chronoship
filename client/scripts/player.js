@@ -1,11 +1,13 @@
 import { ctx } from "./canvas";
 import COLOR from "./color";
+import Controls from "./controls";
+import Engine from "./engine";
 
 const sz = 40;
 function Player(xi, yi) {
   let x = xi;
   let y = yi;
-  let time = 0;
+  let time = 123.4;
 
   function getX() {
     return x;
@@ -20,6 +22,21 @@ function Player(xi, yi) {
   }
 
   function update(dT) {
+    time -= dT;
+
+    const controls = Engine.getByTag('controls')[0];
+    if (controls.get('ArrowRight')) {
+      x += 300 * dT;
+    } else if (controls.get('ArrowLeft')) {
+      x -= 300 * dT;
+    }
+
+    if (controls.getDown(' ')) {
+      console.log('space down!');
+    }
+    if (controls.getUp(' ')) {
+      console.log('space up!');
+    }
   }
 
   function render() {
@@ -42,6 +59,7 @@ function Player(xi, yi) {
 
   return {
     tag: 'player',
+    order: 0,
     getX,
     getY,
     getTime,

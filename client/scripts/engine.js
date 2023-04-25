@@ -1,8 +1,5 @@
 import { canvas, ctx } from "./canvas";
 import COLOR from "./color";
-import Player from "./player";
-import Camera from "./camera";
-import Controls from './controls';
 
 const gameObjects = [];
 const gameObjectsByTag = new Map();
@@ -14,13 +11,6 @@ function init() {
   lastTime = 0;
   clearAllGameObjects();
   requestAnimationFrame(tick);
-}
-
-function initGame() {
-  clearAllGameObjects();
-  addGameObject(new Controls());
-  addGameObject(new Camera());
-  addGameObject(new Player(0, 0));
 }
 
 function tick(t) {
@@ -65,6 +55,7 @@ function removeElementFromArray(element, array) {
 
 function addGameObject(g) {
   gameObjects.push(g);
+  gameObjects.sort((a, b) => a.order - b.order);
 
   if (!gameObjectsByTag.has(g.tag)) {
     gameObjectsByTag.set(g.tag, []);
@@ -94,8 +85,8 @@ function getByTag(tag) {
 
 export default {
   init,
-  initGame,
   addGameObject,
   removeGameObject,
+  clearAllGameObjects,
   getByTag,
 }
