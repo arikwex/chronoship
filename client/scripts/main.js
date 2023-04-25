@@ -9,6 +9,8 @@ import Enemy from './enemy';
 import { canvas } from './canvas';
 import Wake from './wake';
 import EnemySpawner from './enemy-spawner';
+import Text from './text';
+import color from './color';
 
 function initGame() {
   Engine.init();
@@ -21,6 +23,7 @@ function initGame() {
   Engine.addGameObject(new HUD());
 
   bus.on('fire', onFire);
+  bus.on('add-time', onAddTime);
 }
 
 function onFire(x, y, type) {
@@ -43,6 +46,16 @@ function onFire(x, y, type) {
     Engine.addGameObject(new Bullet(x, y, { type, angle: 4 }));
     Engine.addGameObject(new Bullet(x, y, { type, angle: -4 }));
   }
+}
+
+function onAddTime(amt, x, y) {
+  const p = Engine.getByTag('player')[0];
+  if (!p) {
+    return;
+  }
+  p.addTime(amt);
+  console.log(amt);
+  Engine.addGameObject(new Text(`+${amt} sec`, x, y, color.BLACK));
 }
 
 initGame();

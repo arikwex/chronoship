@@ -14,7 +14,7 @@ function Player(xi, yi) {
   let x = xi;
   let y = yi;
   let vx = 0;
-  let time = 18;//99.9;
+  let time = 99.9;
   let self;
 
   function getX() {

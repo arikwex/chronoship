@@ -37,6 +37,7 @@ function Enemy(x, y, type = 0) {
       engine.removeGameObject(self);
       if (hp <= 0) {
         bus.emit('boom', 2);
+        bus.emit('add-time', 5, x, y);
         for (let i = 0; i < 5; i++) {
           setTimeout(() => {
             engine.addGameObject(new Wake(
