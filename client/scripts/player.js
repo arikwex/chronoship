@@ -51,7 +51,7 @@ function Player(xi, yi) {
       vx -= ACCELERATION * dT;
     }
     if (!(moveLeft ^ moveRight)) {
-      vx -= vx * 7.0 * dT;
+      vx -= vx * 15.0 * dT;
     }
     vx = Math.max(-MAX_VEL, Math.min(MAX_VEL, vx));
     x += vx * dT;

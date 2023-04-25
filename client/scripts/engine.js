@@ -60,7 +60,7 @@ function addGameObject(g) {
   addQueue.push(g);
 }
 
-function addGameObjectNow(g) {
+function addGameObjectNow(g) {  
   gameObjects.push(g);
   gameObjects.sort((a, b) => a.order - b.order);
 
@@ -69,11 +69,13 @@ function addGameObjectNow(g) {
   }
   const objectsWithTag = gameObjectsByTag.get(g.tag);
   objectsWithTag.push(g);
+  g.enable?.();
 }
 
 function removeGameObject(g) {
   removeElementFromArray(g, gameObjects);
   removeElementFromArray(g, gameObjectsByTag.get(g.tag));
+  g.disable?.();
 }
 
 function clearAllGameObjects() {

@@ -1,3 +1,4 @@
+import bus from "./bus";
 import { canvas, ctx } from "./canvas";
 import COLOR from "./color";
 import engine from "./engine";
@@ -11,13 +12,30 @@ function Bullet(xi, yi, { angle, type }) {
   let self;
   angle *= Math.PI / 180;
 
+  function getHitDamage() {
+    return 1;
+  }
+
   function update(dT) {
     const dy = -Math.cos(angle) * BASE_SPEED;
     const dx = Math.sin(angle) * BASE_SPEED;
     x += dx * dT;
     y += dy * dT;
 
-    if (y < -canvas.height + 150) {
+    // Hit enemy
+    let hitTarget = false;
+    engine.getByTag('enemy').forEach((enemy) => {
+      if (hitTarget) {
+        return;
+      }
+      if (enemy.inBound(x, y)) {
+        bus.emit('bullet-hit', self, enemy);
+        hitTarget = true;
+      }
+    });
+
+    // Out of bounds
+    if (y < -canvas.height + 150 || hitTarget) {
       engine.removeGameObject(self);
     }
   }
@@ -45,6 +63,7 @@ function Bullet(xi, yi, { angle, type }) {
   self = {
     tag: 'bullet',
     order: 50,
+    getHitDamage,
     update,
     render,
   };
