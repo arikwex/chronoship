@@ -12,7 +12,7 @@ function Player(xi, yi) {
   let x = xi;
   let y = yi;
   let vx = 0;
-  let time = 123.4;
+  let time = 99.9;
 
   function getX() {
     return x;
@@ -24,6 +24,16 @@ function Player(xi, yi) {
 
   function getTime() {
     return time;
+  }
+
+  function addTime(a) {
+    time += a;
+    if (time > 99.9) {
+      time = 99.9;
+    }
+    if (time < 0) {
+      time = 0;
+    }
   }
 
   function update(dT) {
@@ -58,7 +68,8 @@ function Player(xi, yi) {
 
     // Shooting
     if (controls.getDown(' ')) {
-      bus.emit('fire');
+      // bus.emit('fire', x, y, 1);
+      bus.emit('fire', x, y, 1);
     }
   }
 
@@ -86,6 +97,7 @@ function Player(xi, yi) {
     getX,
     getY,
     getTime,
+    addTime,
     update,
     render,
   }

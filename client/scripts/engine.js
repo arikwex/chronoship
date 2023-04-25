@@ -5,6 +5,7 @@ import bus from "./bus.js";
 const gameObjects = [];
 const gameObjectsByTag = new Map();
 const removeQueue = [];
+const addQueue = [];
 let lastTime = 0;
 let deltaTime = 0.01;
 
@@ -21,15 +22,16 @@ function tick(t) {
 
   // Game updates
   removeQueue.length = 0;
+  addQueue.forEach(addGameObjectNow);
+  addQueue.length = 0;
   gameObjects.forEach(updateGameObject);
   removeQueue.forEach(removeGameObject);
+  
 
   // Camera setup
   ctx.save();
   const cam = getByTag('camera')[0];
   ctx.translate(cam.getX() + canvas.width / 2, cam.getY() + canvas.height);
-  // const z = cam.getZoom() / (canvas.height / canvas.width);
-  // ctx.scale(z, z);
   gameObjects.forEach(renderGameObject);
   ctx.restore();
 
@@ -47,7 +49,7 @@ function renderGameObject(g) {
 
 function removeElementFromArray(element, array) {
   if (array) {
-    const idx = array.findIndex(element);
+    const idx = array.findIndex((e) => e == element);
     if (idx >= 0) {
       array.splice(idx, 1);
     }
@@ -55,6 +57,10 @@ function removeElementFromArray(element, array) {
 }
 
 function addGameObject(g) {
+  addQueue.push(g);
+}
+
+function addGameObjectNow(g) {
   gameObjects.push(g);
   gameObjects.sort((a, b) => a.order - b.order);
 

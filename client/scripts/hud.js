@@ -7,10 +7,6 @@ function HUD() {
 
   function update(dT) {
     forcedPulse += dT;
-    const controls = engine.getByTag('controls')[0];
-    if (controls.getDown(' ')) {
-      forcedPulse = 0;
-    }
   }
 
   function render() {
@@ -41,7 +37,8 @@ function HUD() {
     const cx2 = Math.sin(a2) * sz / 4;
     const cy2 = -Math.cos(a2) * sz / 4;
 
-    const pulse = Math.exp(-(Math.min(1 - t % 1.0, forcedPulse)) * 6.0) * 0.4 + 1;
+    // const pulse = Math.exp(-(Math.min(1 - t % 1.0, forcedPulse)) * 6.0) * 0.4 + 1;
+    const pulse = Math.exp(-forcedPulse * 6.0) * 0.4 + 1;
     ctx.translate(0, sz + 10);
     ctx.scale(pulse, pulse);
     ctx.beginPath();
@@ -55,9 +52,14 @@ function HUD() {
     ctx.restore();
   }
 
+  function triggerPulse() {
+    forcedPulse = 0;
+  }
+
   return {
     tag: 'hud',
     order: 9999,
+    triggerPulse,
     update,
     render,
   };
