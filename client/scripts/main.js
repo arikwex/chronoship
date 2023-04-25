@@ -1,7 +1,4 @@
-console.log('It works!');
+import Engine from './engine';
 
-const websocketURL = location.origin.replace(/^http:/, 'ws:') + '/connect';
-const ws = new WebSocket(websocketURL);
-ws.onopen = () => console.log('Connected!');
-ws.onclose = () => console.warn('Closed');
-ws.onerror = () => console.error('Error');
+Engine.init();
+Engine.initGame();
