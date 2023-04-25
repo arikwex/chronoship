@@ -27,9 +27,9 @@ function tick(t) {
   // Camera setup
   ctx.save();
   const cam = getByTag('camera')[0];
-  ctx.translate(cam.getX() + canvas.width / 2, cam.getY() + canvas.height / 2);
-  const z = cam.getZoom() / (canvas.height / canvas.width);
-  ctx.scale(z, z);
+  ctx.translate(cam.getX() + canvas.width / 2, cam.getY() + canvas.height);
+  // const z = cam.getZoom() / (canvas.height / canvas.width);
+  // ctx.scale(z, z);
   gameObjects.forEach(renderGameObject);
   ctx.restore();
 

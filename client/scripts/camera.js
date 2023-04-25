@@ -1,6 +1,8 @@
+import { canvas } from "./canvas";
+
 function Camera() {
   let x = 0;
-  let y = 300;
+  let y = -180;
   let zoom = 1;
 
   function getX() {
@@ -16,7 +18,7 @@ function Camera() {
   }
 
   function update(dT) {
-
+    // y = canvas.height * 0.34;
   }
 
   function render() {

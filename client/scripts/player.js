@@ -1,12 +1,17 @@
-import { ctx } from "./canvas";
+import { canvas, ctx } from "./canvas";
 import COLOR from "./color";
 import Engine from "./engine";
 import bus from "./bus.js";
 
 const sz = 40;
+const MAX_VEL = 800;
+const ACCELERATION = 12000;
+const SHIP_WIDTH = sz * 1.8;
+
 function Player(xi, yi) {
   let x = xi;
   let y = yi;
+  let vx = 0;
   let time = 123.4;
 
   function getX() {
@@ -25,12 +30,33 @@ function Player(xi, yi) {
     time -= dT;
 
     const controls = Engine.getByTag('controls')[0];
-    if (controls.get('ArrowRight')) {
-      x += 300 * dT;
-    } else if (controls.get('ArrowLeft')) {
-      x -= 300 * dT;
+    const moveRight = controls.get('ArrowRight');
+    const moveLeft = controls.get('ArrowLeft');
+
+    // Controls
+    if (moveRight) {
+      vx += ACCELERATION * dT;
+    }
+    if (moveLeft) {
+      vx -= ACCELERATION * dT;
+    }
+    if (!(moveLeft ^ moveRight)) {
+      vx -= vx * 7.0 * dT;
+    }
+    vx = Math.max(-MAX_VEL, Math.min(MAX_VEL, vx));
+    x += vx * dT;
+
+    // Bounds
+    if (x < -canvas.width / 2 + SHIP_WIDTH) {
+      x = -canvas.width / 2 + SHIP_WIDTH;
+      vx = 0;
+    }
+    if (x > canvas.width / 2 - SHIP_WIDTH) {
+      x = canvas.width / 2 - SHIP_WIDTH;
+      vx = 0;
     }
 
+    // Shooting
     if (controls.getDown(' ')) {
       bus.emit('fire');
     }
