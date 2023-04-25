@@ -1,7 +1,7 @@
 import { ctx } from "./canvas";
 import COLOR from "./color";
-import Controls from "./controls";
 import Engine from "./engine";
+import bus from "./bus.js";
 
 const sz = 40;
 function Player(xi, yi) {
@@ -32,10 +32,7 @@ function Player(xi, yi) {
     }
 
     if (controls.getDown(' ')) {
-      console.log('space down!');
-    }
-    if (controls.getUp(' ')) {
-      console.log('space up!');
+      bus.emit('fire');
     }
   }
 

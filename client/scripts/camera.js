@@ -1,6 +1,6 @@
 function Camera() {
   let x = 0;
-  let y = 350;
+  let y = 300;
   let zoom = 1;
 
   function getX() {

@@ -31,6 +31,8 @@
     "ws": "^8.3.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
     "mkdirp": "^1.0.4",
     "nodemon": "^2.0.15",
     "rollup": "^2.60.2"

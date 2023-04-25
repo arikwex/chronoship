@@ -14,16 +14,18 @@ function HUD() {
   }
 
   function render() {
+    const player = engine.getByTag('player')[0];
+    const sz = 50;
+
     ctx.save();
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.translate(player.getX(), player.getY());
     ctx.fillStyle = COLOR.GREEN;
     ctx.strokeStyle = COLOR.GREEN;
     ctx.font = "32px Arial";
-    const sz = 50;
     ctx.textBaseline = 'middle';
-    const player = engine.getByTag('player')[0];
+    ctx.textAlign = 'center';
     const t = player.getTime();
-    ctx.fillText(`${t.toFixed(1)}`, sz * 1.85, sz);
+    ctx.fillText(`${t.toFixed(1)}`, 0, sz * 2 + 20);
 
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
@@ -40,7 +42,7 @@ function HUD() {
     const cy2 = -Math.cos(a2) * sz / 4;
 
     const pulse = Math.exp(-(Math.min(1 - t % 1.0, forcedPulse)) * 6.0) * 0.4 + 1;
-    ctx.translate(sz, sz);
+    ctx.translate(0, sz + 10);
     ctx.scale(pulse, pulse);
     ctx.beginPath();
     ctx.arc(0, 0, sz/2, 0, 2 * Math.PI);

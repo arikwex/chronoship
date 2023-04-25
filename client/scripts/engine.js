@@ -1,5 +1,6 @@
 import { canvas, ctx } from "./canvas";
 import COLOR from "./color";
+import bus from "./bus.js";
 
 const gameObjects = [];
 const gameObjectsByTag = new Map();
@@ -72,6 +73,7 @@ function removeGameObject(g) {
 function clearAllGameObjects() {
   gameObjects.length = 0;
   gameObjectsByTag.clear();
+  bus.removeAllListeners();
 }
 
 function getByTag(tag) {

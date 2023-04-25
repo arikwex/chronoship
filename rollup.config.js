@@ -1,8 +1,11 @@
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+
 export default ({
   input: 'client/scripts/main.js',
-  plugins: [],
+  plugins: [commonjs(), resolve()],
   output: [{
     file: 'build/bundle.js',
-    format: 'es'
+    format: 'cjs'
   }]
 });
