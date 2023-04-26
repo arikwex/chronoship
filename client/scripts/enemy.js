@@ -39,7 +39,7 @@ function Enemy(x, y, type = 0, elapsed = 0) {
   let self;
   let hp = ENEMY_HP_MAP[type] + parseInt(elapsed / 12);
   let timeValue = ENEMY_TIME_MAP[type];
-  let crashDamage  = 10;
+  let crashDamage  = 7;
   let crashed = false;
 
   function enable() {
