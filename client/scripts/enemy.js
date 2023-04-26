@@ -28,6 +28,12 @@ const ENEMY_SIZE_MAP = {
   2: 50,
 }
 
+const ENEMY_POINT_MAP = {
+  0: 15,
+  1: 5,
+  2: 40,
+}
+
 const sz = 40;
 function Enemy(x, y, type = 0) {
   let self;
@@ -74,6 +80,7 @@ function Enemy(x, y, type = 0) {
       if (hp <= 0) {
         bus.emit('boom', 2);
         bus.emit('enemy-boom');
+        bus.emit('add-points', ENEMY_POINT_MAP[type]);
         if (crashed) {
           bus.emit('add-time', -crashDamage, x, y);
         } else {

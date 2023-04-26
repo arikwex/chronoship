@@ -6,26 +6,41 @@ import engine from "./engine";
 
 function HUD() {
   let forcedPulse = 10;
+  let lastPoints = 0;
 
   function update(dT) {
     forcedPulse += dT;
 
     const player = engine.getByTag('player')[0];
     const controls = engine.getByTag('controls')[0];
-    if (!player && controls.getDown('r')) {
-      bus.emit('soft-reset');
+    if (!player) {
+      if (controls.getDown('r')) {
+        bus.emit('soft-reset');
+      }
+    } else {
+      lastPoints = player.getPoints();
     }
   }
 
   function render() {
     const player = engine.getByTag('player')[0];
+
+    ctx.save();
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.font = "32px courier";
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = COLOR.PURPLE;
+    ctx.fillText(`SCORE: ${lastPoints}`, 20, 40);
+    ctx.restore();
+
     if (!player) {
       ctx.save();
       ctx.setTransform(1,0,0,1,0,0);
       ctx.font = "64px Arial";
       ctx.textBaseline = 'middle';
       ctx.textAlign = 'center';
-      ctx.fillStyle = COLOR.RED;
+      ctx.fillStyle = COLOR.PURPLE;
       ctx.fillText(`Press [R] to retry`, canvas.width/2, canvas.height/2);
       ctx.restore();
       return;

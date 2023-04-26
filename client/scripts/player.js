@@ -15,7 +15,24 @@ function Player(xi, yi) {
   let y = yi;
   let vx = 0;
   let time = 30.0;
+  let points = 0;
   let self;
+
+  function enable() {
+    bus.on('add-points', onAddPoints);
+  }
+
+  function disable() {
+    bus.off('add-points', onAddPoints);
+  }
+
+  function getPoints() {
+    return points;
+  }
+
+  function onAddPoints(amt) {
+    points += amt;
+  }
 
   function getX() {
     return x;
@@ -97,7 +114,6 @@ function Player(xi, yi) {
           ));
         }, i * 30);
       }
-      console.log(engine.getByTag('spawner'));
       const spawners = [...engine.getByTag('spawner')];
       spawners.forEach((g) => engine.removeGameObject(g));
       engine.removeGameObject(self);
@@ -138,6 +154,9 @@ function Player(xi, yi) {
     update,
     render,
     inRadius,
+    enable,
+    disable,
+    getPoints,
   };
 
   return self;
