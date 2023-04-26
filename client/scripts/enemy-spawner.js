@@ -5,13 +5,21 @@ import engine from "./engine";
 const PADX = 80;
 function EnemySpawner() {
   let anim = 10;
+  let elapsed = 0;
 
   function update(dT) {
     anim += dT;
 
     if (anim > 1.5) {
-      engine.addGameObject(new Enemy(getRandomX(), getTopY(), 0));
+      if (elapsed < 3) {
+        engine.addGameObject(new Enemy(getRandomX(), getTopY(), 0));
+      } else if (elapsed < 7) {
+        engine.addGameObject(new Enemy(getRandomX(), getTopY(), parseInt(Math.random() * 2)));
+      } else {
+        engine.addGameObject(new Enemy(getRandomX(), getTopY(), parseInt(Math.random() * 3)));
+      }
       anim = 0;
+      elapsed += 1;
     }
   }
 

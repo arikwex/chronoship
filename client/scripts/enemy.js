@@ -4,12 +4,36 @@ import COLOR from "./color";
 import engine from "./engine";
 import Wake from "./wake";
 
+const ENEMY_HP_MAP = {
+  0: 4,
+  1: 2,
+  2: 7,
+};
+
+const ENEMY_TIME_MAP = {
+  0: 6,
+  1: 3,
+  2: 10,
+};
+
+const ENEMY_SPEED_MAP = {
+  0: 350,
+  1: 450,
+  2: 200,
+}
+
+const ENEMY_SIZE_MAP = {
+  0: 40,
+  1: 30,
+  2: 50,
+}
+
 const sz = 40;
 function Enemy(x, y, type = 0) {
   let self;
-  let hp = 4 + type;
+  let hp = ENEMY_HP_MAP[type];
+  let timeValue = ENEMY_TIME_MAP[type];
   let crashDamage  = 10;
-  let timeValue = hp + 2;
   let crashed = false;
 
   function enable() {
@@ -43,7 +67,7 @@ function Enemy(x, y, type = 0) {
   }
 
   function update(dT) {
-    y += 400 * dT;
+    y += ENEMY_SPEED_MAP[type] * dT;
 
     if (y > 400 || hp <= 0) {
       engine.removeGameObject(self);
@@ -78,10 +102,20 @@ function Enemy(x, y, type = 0) {
     ctx.fillStyle = COLOR.RED;
     ctx.lineWidth = 5;
     ctx.beginPath();
-    ctx.moveTo(0, sz/2);
-    ctx.arc(sz/4, sz/2, sz * 0.5, -Math.PI/2, 1.0);
-    ctx.arc(0, sz/2, sz * 1.0, 0.7, -Math.PI - 0.7, true);
-    ctx.arc(-sz/4, sz/2, sz * 0.5, 2.0, -Math.PI/2);
+    if (type === 0) {
+      ctx.moveTo(0, sz/2);
+      ctx.arc(sz/4, sz/2, sz * 0.5, -Math.PI/2, 1.0);
+      ctx.arc(0, sz/2, sz * 1.0, 0.7, -Math.PI - 0.7, true);
+      ctx.arc(-sz/4, sz/2, sz * 0.5, 2.0, -Math.PI/2);
+    } else if (type === 1) {
+      ctx.moveTo(0, sz * 0.8);
+      ctx.arc(0, 0, sz * 0.8, 0, -Math.PI, true);
+    } else if (type === 2) {
+      ctx.arc(0, sz * 0.2, sz * 0.8, 0, -Math.PI);
+      ctx.lineTo(-sz * 1.4, -sz * 0.3);
+      ctx.lineTo(0, -sz * 0.1);
+      ctx.lineTo(sz * 1.4, -sz * 0.3);
+    }
     ctx.closePath();
     ctx.stroke();
     ctx.fill();
@@ -91,13 +125,15 @@ function Enemy(x, y, type = 0) {
   function inBound(tx, ty) {
     const dx = tx - x;
     const dy = ty - y;
-    return (dx * dx + dy * dy) < sz * sz;
+    const q = ENEMY_SIZE_MAP[type];
+    return (dx * dx + dy * dy) < q * q;
   }
 
   function inRadius(tx, ty, rad) {
     const dx = tx - x;
     const dy = ty - y;
-    return Math.sqrt(dx * dx + dy * dy) < sz + rad;
+    const q = ENEMY_SIZE_MAP[type];
+    return Math.sqrt(dx * dx + dy * dy) < q + rad;
   }
 
   self = {
