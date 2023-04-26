@@ -5,14 +5,11 @@ import Player from './player';
 import Camera from './camera';
 import bus from './bus';
 import Bullet from './bullet';
-import Enemy from './enemy';
-import { canvas } from './canvas';
-import Wake from './wake';
 import EnemySpawner from './enemy-spawner';
 import Text from './text';
 import color from './color';
-import TimeBoost from './time-boost';
 import BoostSpawner from './boost-spawner';
+import AudioManager from './audio';
 
 function initGame() {
   Engine.init();
@@ -27,6 +24,7 @@ function initGame() {
 
   bus.on('fire', onFire);
   bus.on('add-time', onAddTime);
+  AudioManager.init();
 }
 
 function onFire(x, y, type) {

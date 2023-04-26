@@ -49,6 +49,7 @@ function Enemy(x, y, type = 0) {
       engine.removeGameObject(self);
       if (hp <= 0) {
         bus.emit('boom', 2);
+        bus.emit('enemy-boom');
         if (crashed) {
           bus.emit('add-time', -crashDamage, x, y);
         } else {

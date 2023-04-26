@@ -9,7 +9,7 @@
     "client:clean": "rm -rf build/ && mkdirp build/",
     "client:js": "rollup -c rollup.config.js",
     "client:js.watch": "rollup -c rollup.config.js --watch",
-    "client:html": "cp client/index.html build/index.html",
+    "client:html": "cp client/index.html build/index.html && cp -r client/audio build/audio",
     "server": "node server/index.js",
     "server:dev": "nodemon server/index.js"
   },

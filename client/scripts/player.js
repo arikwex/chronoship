@@ -14,7 +14,7 @@ function Player(xi, yi) {
   let x = xi;
   let y = yi;
   let vx = 0;
-  let time = 99.9;
+  let time = 30.0;
   let self;
 
   function getX() {
@@ -31,8 +31,8 @@ function Player(xi, yi) {
 
   function addTime(a) {
     time += a;
-    if (time > 99.9) {
-      time = 99.9;
+    if (time > 30) {
+      time = 30;
     }
     if (time < 0) {
       time = 0;
@@ -84,6 +84,7 @@ function Player(xi, yi) {
     // Death
     if (time <= 0) {
       bus.emit('boom', 2);
+      bus.emit('player-boom');
       setTimeout(() => { bus.emit('boom', 2); }, 500);
       setTimeout(() => { bus.emit('boom', 2); }, 1000);
       for (let i = 0; i < 50; i++) {
