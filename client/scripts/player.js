@@ -97,6 +97,9 @@ function Player(xi, yi) {
           ));
         }, i * 30);
       }
+      console.log(engine.getByTag('spawner'));
+      const spawners = [...engine.getByTag('spawner')];
+      spawners.forEach((g) => engine.removeGameObject(g));
       engine.removeGameObject(self);
     }
   }

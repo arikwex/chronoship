@@ -10,7 +10,7 @@ function EnemySpawner() {
   function update(dT) {
     anim += dT;
 
-    if (anim > 1.5) {
+    if (anim > Math.max(0.7, 1.5 - elapsed/18)) {
       if (elapsed < 3) {
         engine.addGameObject(new Enemy(getRandomX(), getTopY(), 0));
       } else if (elapsed < 7) {

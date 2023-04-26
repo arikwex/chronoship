@@ -1,5 +1,7 @@
-import { ctx } from "./canvas";
+import bus from "./bus";
+import { canvas, ctx } from "./canvas";
 import COLOR from "./color";
+import Controls from "./controls";
 import engine from "./engine";
 
 function HUD() {
@@ -7,11 +9,25 @@ function HUD() {
 
   function update(dT) {
     forcedPulse += dT;
+
+    const player = engine.getByTag('player')[0];
+    const controls = engine.getByTag('controls')[0];
+    if (!player && controls.getDown('r')) {
+      bus.emit('soft-reset');
+    }
   }
 
   function render() {
     const player = engine.getByTag('player')[0];
     if (!player) {
+      ctx.save();
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.font = "64px Arial";
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = COLOR.RED;
+      ctx.fillText(`Press [R] to retry`, canvas.width/2, canvas.height/2);
+      ctx.restore();
       return;
     }
     const t = player.getTime();

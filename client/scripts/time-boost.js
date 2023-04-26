@@ -9,7 +9,7 @@ function TimeBoost(x, y, amt) {
   let self;
   
   function update(dT) {
-    y += 200 * dT;
+    y += 375 * dT;
     t += dT * 3.5;
 
     // Player Collision
@@ -25,6 +25,10 @@ function TimeBoost(x, y, amt) {
       setTimeout(() => { engine.addGameObject(new Wake(x, y, COLOR.BLACK, 50)); }, 0);
       setTimeout(() => { engine.addGameObject(new Wake(x, y, COLOR.GREEN, 70)); }, 100);
       setTimeout(() => { engine.addGameObject(new Wake(x, y, COLOR.WHITE, 90)); }, 200);
+      engine.removeGameObject(self);
+    }
+
+    if (y > 300) {
       engine.removeGameObject(self);
     }
   }

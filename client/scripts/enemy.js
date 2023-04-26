@@ -17,8 +17,8 @@ const ENEMY_TIME_MAP = {
 };
 
 const ENEMY_SPEED_MAP = {
-  0: 350,
-  1: 450,
+  0: 300,
+  1: 400,
   2: 200,
 }
 

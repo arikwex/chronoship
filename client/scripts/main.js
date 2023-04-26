@@ -18,14 +18,15 @@ function initGame() {
   Engine.addGameObject(new Controls());
   Engine.addGameObject(new Camera());
   Engine.addGameObject(new Player(0, 0));
-  Engine.addGameObject(new EnemySpawner());
-  Engine.addGameObject(new BoostSpawner());
   Engine.addGameObject(new HUD());
 
   bus.on('fire', onFire);
   bus.on('add-time', onAddTime);
+  bus.on('soft-reset', onSoftReset);
 
   function onInteract() {
+    Engine.addGameObject(new EnemySpawner());
+    Engine.addGameObject(new BoostSpawner());
     AudioManager.init();
     window.removeEventListener('keydown', onInteract);
   }
@@ -65,6 +66,12 @@ function onAddTime(amt, x, y) {
   } else {
     Engine.addGameObject(new Text(`${amt} sec`, x, y, color.RED));
   }
+}
+
+function onSoftReset() {
+  Engine.addGameObject(new EnemySpawner());
+  Engine.addGameObject(new BoostSpawner());
+  Engine.addGameObject(new Player(0, 0));
 }
 
 initGame();
