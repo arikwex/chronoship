@@ -11,6 +11,8 @@ import Wake from './wake';
 import EnemySpawner from './enemy-spawner';
 import Text from './text';
 import color from './color';
+import TimeBoost from './time-boost';
+import BoostSpawner from './boost-spawner';
 
 function initGame() {
   Engine.init();
@@ -20,6 +22,7 @@ function initGame() {
   Engine.addGameObject(new Camera());
   Engine.addGameObject(new Player(0, 0));
   Engine.addGameObject(new EnemySpawner());
+  Engine.addGameObject(new BoostSpawner());
   Engine.addGameObject(new HUD());
 
   bus.on('fire', onFire);
@@ -54,7 +57,6 @@ function onAddTime(amt, x, y) {
     return;
   }
   p.addTime(amt);
-  console.log(amt);
   if (amt > 0) {
     Engine.addGameObject(new Text(`+${amt} sec`, x, y, color.GREEN));
   } else {

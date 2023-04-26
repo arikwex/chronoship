@@ -9,6 +9,7 @@ function Enemy(x, y, type = 0) {
   let self;
   let hp = 4 + type;
   let crashDamage  = 10;
+  let timeValue = hp + 2;
   let crashed = false;
 
   function enable() {
@@ -51,7 +52,7 @@ function Enemy(x, y, type = 0) {
         if (crashed) {
           bus.emit('add-time', -crashDamage, x, y);
         } else {
-          bus.emit('add-time', 5, x, y);
+          bus.emit('add-time', timeValue, x, y);
         }
         for (let i = 0; i < 4; i++) {
           setTimeout(() => {

@@ -71,7 +71,7 @@ function Player(xi, yi) {
 
     // Shooting
     if (controls.getDown(' ')) {
-      bus.emit('fire', x, y, 2);
+      bus.emit('fire', x, y, 0);
     }
 
     // Enemy Collision
@@ -118,6 +118,12 @@ function Player(xi, yi) {
     ctx.restore();
   }
 
+  function inRadius(tx, ty, rad) {
+    const dx = tx - x;
+    const dy = ty - y;
+    return Math.sqrt(dx * dx + dy * dy) < sz + rad;
+  }
+
   self = {
     tag: 'player',
     order: 0,
@@ -127,6 +133,7 @@ function Player(xi, yi) {
     addTime,
     update,
     render,
+    inRadius,
   };
 
   return self;
