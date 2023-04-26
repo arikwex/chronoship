@@ -16,14 +16,25 @@ function Player(xi, yi) {
   let vx = 0;
   let time = 30.0;
   let points = 0;
+  let power = 0;
   let self;
 
   function enable() {
     bus.on('add-points', onAddPoints);
+    bus.on('powerup', onPowerup);
   }
 
   function disable() {
     bus.off('add-points', onAddPoints);
+    bus.off('powerup', onPowerup);
+  }
+
+  function onPowerup() {
+    power += 1;
+  }
+
+  function getPower() {
+    return power;
   }
 
   function getPoints() {
@@ -88,7 +99,7 @@ function Player(xi, yi) {
 
     // Shooting
     if (controls.getDown(' ')) {
-      bus.emit('fire', x, y, 0);
+      bus.emit('fire', x, y, power);
     }
 
     // Enemy Collision
@@ -157,6 +168,7 @@ function Player(xi, yi) {
     enable,
     disable,
     getPoints,
+    getPower,
   };
 
   return self;

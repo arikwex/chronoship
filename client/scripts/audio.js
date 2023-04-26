@@ -22,6 +22,12 @@ function AudioManager() {
       playSound(blaster, 0.01);
     });
 
+    bus.on('powerup', () => { 
+      powerup.preservesPitch = false;
+      powerup.playbackRate = 1.0;
+      playSound(powerup, 0.01);
+    });
+
     bus.on('bullet-hit', () => { 
       bulletHit.preservesPitch = false;
       bulletHit.playbackRate = 2.3 + Math.random() * 1.5;

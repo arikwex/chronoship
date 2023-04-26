@@ -16,7 +16,7 @@ function EnemySpawner() {
       } else if (elapsed < 7) {
         engine.addGameObject(new Enemy(getRandomX(), getTopY(), parseInt(Math.random() * 2)));
       } else {
-        engine.addGameObject(new Enemy(getRandomX(), getTopY(), parseInt(Math.random() * 3)));
+        engine.addGameObject(new Enemy(getRandomX(), getTopY(), parseInt(Math.random() * 3), elapsed));
       }
       anim = 0;
       elapsed += 1;

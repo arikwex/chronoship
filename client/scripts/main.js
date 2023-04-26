@@ -40,18 +40,13 @@ function onFire(x, y, type) {
   }
   const h = Engine.getByTag('hud')[0];
   h.triggerPulse();
-  if (type === 0) {
-    p.addTime(-0.9);
-    Engine.addGameObject(new Bullet(x, y, { type, angle: 0 }));
-  } else if (type === 1) {
-    p.addTime(-1.5);
-    Engine.addGameObject(new Bullet(x-5, y, { type, angle: -1 }));
-    Engine.addGameObject(new Bullet(x+5, y, { type, angle: 1 }));
-  } else if (type === 2) {
-    p.addTime(-2.2);
-    Engine.addGameObject(new Bullet(x, y, { type, angle: 0 }));
-    Engine.addGameObject(new Bullet(x, y, { type, angle: 4 }));
-    Engine.addGameObject(new Bullet(x, y, { type, angle: -4 }));
+  p.addTime(-0.5 - type * 0.3);
+  const N = type + 1;
+  const span = Math.min(type * 2, 90);
+  for (let i = 0; i < N; i++) {  
+    const offset = (i - (N - 1)/2) / (N - 0.99);
+    const angle = offset * span;
+    Engine.addGameObject(new Bullet(x + offset * 7, y, { type, angle }));
   }
 }
 
