@@ -4,7 +4,7 @@ import engine from "./engine";
 function Wake(x, y, color, size) {
   let self;
   let anim = 0;
-  const DURATION = 0.5 + Math.random() * 0.2 - 0.1;
+  const DURATION = 0.4 + Math.random() * 0.2 - 0.1;
 
   function update(dT) {
     anim += dT;

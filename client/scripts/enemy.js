@@ -8,13 +8,17 @@ const sz = 40;
 function Enemy(x, y, type = 0) {
   let self;
   let hp = 4 + type;
+  let crashDamage  = 10;
+  let crashed = false;
 
   function enable() {
     bus.on('bullet-hit', onBulletHit);
+    bus.on('player-crash', onPlayerCrash);
   }
 
   function disable() {
     bus.off('bullet-hit', onBulletHit);
+    bus.off('player-crash', onPlayerCrash);
   }
 
   function onBulletHit(bullet, enemy) {
@@ -30,21 +34,32 @@ function Enemy(x, y, type = 0) {
     }
   }
 
+  function onPlayerCrash(player, enemy) {
+    if (enemy === self) {
+      hp = 0;
+      crashed = true;
+    }
+  }
+
   function update(dT) {
-    y += 100 * dT;
+    y += 400 * dT;
 
     if (y > 400 || hp <= 0) {
       engine.removeGameObject(self);
       if (hp <= 0) {
         bus.emit('boom', 2);
-        bus.emit('add-time', 5, x, y);
-        for (let i = 0; i < 5; i++) {
+        if (crashed) {
+          bus.emit('add-time', -crashDamage, x, y);
+        } else {
+          bus.emit('add-time', 5, x, y);
+        }
+        for (let i = 0; i < 4; i++) {
           setTimeout(() => {
             engine.addGameObject(new Wake(
               x + (Math.random() - 0.5) * sz * 2,
               y + (Math.random() - 0.5) * sz * 1.3,
               COLOR.RED,
-              30 + Math.random() * 50
+              50 + Math.random() * 60
             ));
           }, i * 60);
         }
@@ -77,12 +92,19 @@ function Enemy(x, y, type = 0) {
     return (dx * dx + dy * dy) < sz * sz;
   }
 
+  function inRadius(tx, ty, rad) {
+    const dx = tx - x;
+    const dy = ty - y;
+    return Math.sqrt(dx * dx + dy * dy) < sz + rad;
+  }
+
   self = {
     tag: 'enemy',
     order: 100,
     update,
     render,
     inBound,
+    inRadius,
     enable,
     disable,
   };

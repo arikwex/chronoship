@@ -72,9 +72,16 @@ function Player(xi, yi) {
     // Shooting
     if (controls.getDown(' ')) {
       bus.emit('fire', x, y, 2);
-      // bus.emit('boom', 1);
     }
 
+    // Enemy Collision
+    engine.getByTag('enemy').forEach((enemy) => {
+      if (enemy.inRadius(x, y, sz * 0.75)) {
+        bus.emit('player-crash', self, enemy);
+      }
+    });
+
+    // Death
     if (time <= 0) {
       bus.emit('boom', 2);
       setTimeout(() => { bus.emit('boom', 2); }, 500);

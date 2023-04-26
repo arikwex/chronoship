@@ -55,7 +55,11 @@ function onAddTime(amt, x, y) {
   }
   p.addTime(amt);
   console.log(amt);
-  Engine.addGameObject(new Text(`+${amt} sec`, x, y, color.BLACK));
+  if (amt > 0) {
+    Engine.addGameObject(new Text(`+${amt} sec`, x, y, color.GREEN));
+  } else {
+    Engine.addGameObject(new Text(`${amt} sec`, x, y, color.RED));
+  }
 }
 
 initGame();

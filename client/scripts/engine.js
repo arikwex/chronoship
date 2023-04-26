@@ -26,7 +26,6 @@ function tick(t) {
   addQueue.length = 0;
   gameObjects.forEach(updateGameObject);
   removeQueue.forEach(removeGameObject);
-  
 
   // Camera setup
   ctx.save();
