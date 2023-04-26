@@ -2,6 +2,7 @@ import bus from "./bus";
 
 function AudioManager() {
   // Sounds
+  const song = new Audio("./audio/song.mp3");
   const blaster = new Audio("./audio/blaster.wav");
   const bulletHit = new Audio("./audio/bullet-hit.wav");
   const enemyBoom = new Audio("./audio/enemy-boom.wav");
@@ -46,6 +47,9 @@ function AudioManager() {
         playSound(rewind);
       }
     });
+
+    song.loop = true;
+    song.play();
   }
 
   return {
